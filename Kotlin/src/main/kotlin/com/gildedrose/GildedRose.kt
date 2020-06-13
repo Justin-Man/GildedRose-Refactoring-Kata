@@ -31,9 +31,7 @@ class GildedRose(var items: Array<Item>) {
                 }
             }
 
-            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                items[i].sellIn = items[i].sellIn - 1 // decrease the number of days to sell the item
-            }
+            decreaseSellInValue(items[i])
 
             if (items[i].sellIn < 0) { // if past the sell by date
                 if (items[i].name != "Aged Brie") {
@@ -52,6 +50,12 @@ class GildedRose(var items: Array<Item>) {
                     }
                 }
             }
+        }
+    }
+
+    private fun decreaseSellInValue(item: Item) {
+        if (item.name != "Sulfuras, Hand of Ragnaros") {
+            item.sellIn--
         }
     }
 
