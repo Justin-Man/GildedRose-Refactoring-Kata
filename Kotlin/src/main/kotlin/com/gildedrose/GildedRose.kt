@@ -4,12 +4,8 @@ class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         for (i in items.indices) {
-            if (items[i] !is AgedBrie && items[i] !is BackstageConcertPasses) {
-                if (items[i].quality > 0) {
-                    if (items[i] !is Sulfuras) {
-                        items[i].quality-- // items degrade in quality value except aged brie, passes and Sulfuras
-                    }
-                }
+            if (items[i] is RegularItem) {
+                if (items[i].quality > 0) items[i].quality-- // items degrade in quality value except aged brie, passes and Sulfuras
             }
             else {
                 if (items[i].quality < 50) { // The Quality of an item is never more than 50

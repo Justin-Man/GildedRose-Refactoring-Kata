@@ -8,32 +8,32 @@ class GildedRoseTest {
 
     @Test
     fun `decrease quality of regular item as sell-in decreases`() {
-        val items = arrayOf(Item("item", 8, 10))
-        val gildedRose = GildedRose(items)
+        val item: Item = RegularItem("item", 8, 10)
+        val gildedRose = GildedRose(arrayOf(item))
 
         gildedRose.updateQuality()
 
-        assertThat(items.first().quality).isEqualTo(9)
+        assertThat(arrayOf(item).first().quality).isEqualTo(9)
     }
 
     @Test
     fun `should decrease regular item quality twice as fast when sell-in value is passed`() {
-        val items = arrayOf(Item("item", -1, 10))
-        val gildedRose = GildedRose(items)
+        val item: Item = RegularItem("item", -1, 10)
+        val gildedRose = GildedRose(arrayOf(item))
 
         gildedRose.updateQuality()
 
-        assertThat(items.first().quality).isEqualTo(8)
+        assertThat(arrayOf(item).first().quality).isEqualTo(8)
     }
 
     @Test
     fun `should not decrease item quality when quality is zero`() {
-        val items = arrayOf(Item("item", 8, 0))
-        val gildedRose = GildedRose(items)
+        val item: Item = RegularItem("item", 8, 0)
+        val gildedRose = GildedRose(arrayOf(item))
 
         gildedRose.updateQuality()
 
-        assertThat(items.first().quality).isEqualTo(0)
+        assertThat(arrayOf(item).first().quality).isEqualTo(0)
     }
 
     @Test
