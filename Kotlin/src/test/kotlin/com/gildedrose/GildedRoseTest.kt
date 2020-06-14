@@ -1,10 +1,10 @@
 package com.gildedrose
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class GildedRoseTest {
-
 
     @Test
     fun `decrease quality of regular item as sell-in decreases`() {
@@ -27,13 +27,15 @@ class GildedRoseTest {
     }
 
     @Test
-    fun `should not decrease item quality when quality is zero`() {
-        val item: Item = RegularItem("item", 8, 0)
-        val gildedRose = GildedRose(arrayOf(item))
+    fun `should not decrease quality below zero for items that degrade`() {
+        val regularItem: Item = RegularItem("item", 8, 0)
+        val conjuredItem: Item = ConjuredItem("item", 8, 0)
+        val items = arrayOf(regularItem, conjuredItem)
+        val gildedRose = GildedRose(items)
 
         gildedRose.updateQuality()
 
-        assertThat(arrayOf(item).first().quality).isEqualTo(0)
+        assertTrue(items.all { it.quality == 0 })
     }
 
     @Test
@@ -104,6 +106,16 @@ class GildedRoseTest {
         gildedRose.updateQuality()
 
         assertThat(arrayOf(item).first().quality).isEqualTo(0)
+    }
+
+    @Test
+    fun `decrease quality of conjured item twice as fast as regular item`() {
+        val item: Item = ConjuredItem(itemName = "item", itemSellIn = 10, itemQuality = 20)
+        val gildedRose = GildedRose(arrayOf(item))
+
+        gildedRose.updateQuality()
+
+        assertThat(arrayOf(item).first().quality).isEqualTo(18)
     }
 }
 

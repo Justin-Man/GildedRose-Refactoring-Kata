@@ -17,3 +17,9 @@ class Sulfuras(
         itemSellIn: Int,
         itemQuality: Int
 ) : Item(itemName, itemSellIn, itemQuality)
+
+class ConjuredItem(
+        itemName: String,
+        itemSellIn: Int,
+        itemQuality: Int
+) : Item(itemName, itemSellIn, itemQuality)

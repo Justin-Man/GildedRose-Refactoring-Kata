@@ -5,7 +5,8 @@ class GildedRose(var items: Array<Item>) {
     fun updateQuality() {
         items.forEach { item ->
             when (item) {
-                is RegularItem -> if (item.quality > 0) item.quality-- // items degrade in quality value except aged brie, passes and Sulfuras
+                is RegularItem -> if (item.quality > 0) item.quality--
+                is ConjuredItem -> if (item.quality > 0) item.quality -= 2
                 is BackstageConcertPasses ->
                     if(item.quality < 50) {
                         when {
