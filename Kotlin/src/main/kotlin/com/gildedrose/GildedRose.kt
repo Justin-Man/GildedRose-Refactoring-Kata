@@ -7,13 +7,14 @@ class GildedRose(var items: Array<Item>) {
             when (item) {
                 is RegularItem -> if (item.quality > 0) item.quality-- // items degrade in quality value except aged brie, passes and Sulfuras
                 is BackstageConcertPasses ->
-                    when(item.quality < 50) {
-                        item.sellIn > 10 -> item.quality++
-                        item.sellIn in 6..10 -> item.quality += 2
-                        item.sellIn < 6 -> item.quality += 3
+                    if(item.quality < 50) {
+                        when {
+                            item.sellIn > 10 -> item.quality++
+                            item.sellIn in 6..10 -> item.quality += 2
+                            item.sellIn < 6 -> item.quality += 3
+                        }
                     }
-
-                else -> if (item.quality < 50) item.quality++
+                else -> increaseQuality(item)
             }
 
             decreaseSellInValue(item)
