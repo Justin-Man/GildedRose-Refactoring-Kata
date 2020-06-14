@@ -4,32 +4,16 @@ class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
-            if (item is RegularItem) {
-                if (item.quality > 0) item.quality-- // items degrade in quality value except aged brie, passes and Sulfuras
-            }
-            else if (item is BackstageConcertPasses) {
-                if (item.sellIn > 10) { // When there are more than 10 days to sell the pass
-                    if (item.quality < 50) {
-                        item.quality++ // increase quality if its not more than 50
-                    }
-                }
-
-                if (item.sellIn < 11) { // When there are 10 or less days to sell the pass
-                        if (item.quality < 50) { // As long as quality is not over 50
-                            item.quality= item.quality + 2 // "Backstage passes", increases in Quality as its SellIn value approaches
-                        }
+            when (item) {
+                is RegularItem -> if (item.quality > 0) item.quality-- // items degrade in quality value except aged brie, passes and Sulfuras
+                is BackstageConcertPasses ->
+                    when(item.quality < 50) {
+                        item.sellIn > 10 -> item.quality++
+                        item.sellIn in 6..10 -> item.quality += 2
+                        item.sellIn < 6 -> item.quality += 3
                     }
 
-                if (item.sellIn < 6) { // When there are 5 days or less to sell the pass
-                    if (item.quality < 50) {
-                        item.quality++ // increase quality if its not more than 50
-                    }
-                }
-
-
-            } else {
-                if (item.quality < 50)  // The Quality of an item is never more than 50
-                    item.quality++ // Therefore keep increasing quality value
+                else -> if (item.quality < 50) item.quality++
             }
 
             decreaseSellInValue(item)
