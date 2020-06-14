@@ -18,31 +18,22 @@ class GildedRose(var items: Array<Item>) {
 
             decreaseSellInValue(item)
 
-            if (item.sellIn < 0) { // if past the sell by date
-                if (item !is AgedBrie) {
-                    if (item !is BackstageConcertPasses) {
-                        if (item.quality > 0) { // The Quality of an item is never negative
-                            if (item !is Sulfuras) {
-                                item.quality--
-                            }
-                        }
-                    } else {
-                        item.quality = 0 // Quality of Backstage passes drops to 0 after the concert
-                    }
-                }
-                else { // For Aged brie, backstage passes and Sulfuras, increase quality
-                    if (item.quality < 50) {
-                        item.quality++
-                    }
+            if (item.sellIn < 0) {
+                when {
+                    item is AgedBrie -> increaseQuality(item)
+                    item is BackstageConcertPasses -> item.quality = 0
+                    item !is Sulfuras && item.quality > 0 -> item.quality--
                 }
             }
         }
     }
 
-    private fun decreaseSellInValue(item: Item) {
-        if (item is Sulfuras) return
-        item.sellIn--
+    private fun increaseQuality(item: Item) {
+        if (item.quality < 50) item.quality++
     }
 
+    private fun decreaseSellInValue(item: Item) {
+        if (item !is Sulfuras) item.sellIn--
+    }
 }
 
