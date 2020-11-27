@@ -2,21 +2,22 @@ package com.gildedrose
 
 class GildedRose(var items: Array<Item>) {
 
+    fun createProduct(item: Item) : Product? {
+        return when (item) {
+            is RegularItem -> RegularProduct(item)
+            is ConjuredItem -> ConjuredProduct(item)
+            is BackstageConcertPasses -> BackstageConcertPassesProduct(item)
+            is AgedBrie -> AgedBrieProduct(item)
+            is Sulfuras -> SulfurasProduct(item)
+            else -> null
+        }
+    }
+
     fun updateQuality() {
         items.forEach { item ->
-            when (item) {
-                is RegularItem -> if (item.quality > 0) item.quality--
-                is ConjuredItem -> if (item.quality > 0) item.quality -= 2
-                is BackstageConcertPasses ->
-                    if(item.quality < 50) {
-                        when {
-                            item.sellIn > 10 -> item.quality++
-                            item.sellIn in 6..10 -> item.quality += 2
-                            item.sellIn < 6 -> item.quality += 3
-                        }
-                    }
-                else -> increaseQuality(item)
-            }
+            val product = createProduct(item)
+
+            product?.updateQuality()
 
             decreaseSellInValue(item)
 
