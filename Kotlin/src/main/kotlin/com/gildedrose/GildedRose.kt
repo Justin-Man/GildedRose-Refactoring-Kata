@@ -17,26 +17,8 @@ class GildedRose(var items: Array<Item>) {
         items.forEach { item ->
             val product = createProduct(item)
 
-            product?.updateQuality()
-
-            decreaseSellInValue(item)
-
-            if (item.sellIn < 0) {
-                when {
-                    item is AgedBrie -> increaseQuality(item)
-                    item is BackstageConcertPasses -> item.quality = 0
-                    item !is Sulfuras && item.quality > 0 -> item.quality--
-                }
-            }
+            product?.age()
         }
-    }
-
-    private fun increaseQuality(item: Item) {
-        if (item.quality < 50) item.quality++
-    }
-
-    private fun decreaseSellInValue(item: Item) {
-        if (item !is Sulfuras) item.sellIn--
     }
 }
 
