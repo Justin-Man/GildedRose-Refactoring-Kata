@@ -29,6 +29,18 @@ class GildedRoseTest {
     }
 
     @Test
+    fun `decreases conjured item quality four times as fast when sell-in passed`() {
+        val conjuredItem = Item("Conjured", 0, 4)
+
+        val items = arrayOf(conjuredItem)
+        val gildedRose = GildedRose(items)
+
+        gildedRose.updateQuality()
+
+        assertThat(items.first().quality).isEqualTo(0)
+    }
+
+    @Test
     fun `should not decrease quality below zero for items that degrade`() {
         val regularItem = Item("item", 8, 0)
         val conjuredItem = Item("Conjured", 8, 0)
